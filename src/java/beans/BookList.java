@@ -1,6 +1,7 @@
 package beans;
 
 import db.Database;
+import enums.SearchType;
 import java.util.ArrayList;
 import java.sql.*;
 import java.util.logging.Level;
@@ -48,5 +49,27 @@ public class BookList {
                 + "inner join publisher p on b.publisher_id=p.id "
                 + "where genre_id=" + id + " order by b.name "
                 + "limit 0,5");        
+    }
+    
+    public ArrayList<Book> getBooksByLetter(String letter) {
+        return getBooksFromBD("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, a.fio as author, g.name as genre, b.image from library.book b "
+                + "inner join author a on  b.author_id = a.id "
+                + "inner join genre g on b.genre_id = g.id "
+                + "inner join publisher p on b.publisher_id = p.id "
+                + "where substr(b.name, 1, 1)='" + letter + "'" + " order by b.name asc limit 0, 5");
+    }
+    
+    public ArrayList<Book> getBooksBySearch(String searchStr, SearchType type) {
+        StringBuilder sql = new StringBuilder("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, a.fio as author, g.name as genre, b.image from library.book b "
+                + "inner join author a on  b.author_id = a.id "
+                + "inner join genre g on b.genre_id = g.id "
+                + "inner join publisher p on b.publisher_id = p.id ");
+        if (type == SearchType.AUTHOR) {
+            sql.append("where lower(a.fio) like '%").append(searchStr.toLowerCase()).append("%' order by b.name asc ");
+        } else if (type == SearchType.TITLE) {
+            sql.append("where lower(b.name) like '%").append(searchStr.toLowerCase()).append("%' order by b.name asc ");
+        }
+        sql.append("limit 0, 5");
+        return getBooksFromBD(sql.toString());
     }
 }

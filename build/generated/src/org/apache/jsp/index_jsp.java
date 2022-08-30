@@ -41,9 +41,7 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       _jspx_out = out;
       _jspx_resourceInjector = (org.glassfish.jsp.api.ResourceInjector) application.getAttribute("com.sun.appserv.jsp.resource.injector");
 
-      out.write("\n");
-      out.write("\n");
-      out.write("\n");
+      out.write('\n');
       out.write('\n');
       out.write("\n");
       out.write("<!DOCTYPE html>\n");
@@ -54,6 +52,9 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    <link href=\"css/main_style.css\" rel=\"stylesheet\" type=\"text/css\">\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
+      out.write("        ");
+session.invalidate(); 
+      out.write("\n");
       out.write("        <div class=\"main\">\n");
       out.write("            <div class=\"content\">\n");
       out.write("                <p class=\"title\"><img src=\"images/lib.png\" width=\"320\" height=\"217\" alt=\"lib\"/>\n");

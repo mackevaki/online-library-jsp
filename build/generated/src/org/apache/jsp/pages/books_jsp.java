@@ -6,6 +6,7 @@ import javax.servlet.jsp.*;
 import beans.Author;
 import beans.AuthorList;
 import testconnection.TestConnection;
+import enums.SearchType;
 import java.util.ArrayList;
 import beans.Book;
 import beans.Genre;
@@ -18,9 +19,10 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
   private static java.util.List<String> _jspx_dependants;
 
   static {
-    _jspx_dependants = new java.util.ArrayList<String>(3);
+    _jspx_dependants = new java.util.ArrayList<String>(4);
     _jspx_dependants.add("/WEB-INF/jspf/header.jspf");
     _jspx_dependants.add("/pages/../WEB-INF/jspf/left_menu.jspf");
+    _jspx_dependants.add("/pages/../WEB-INF/jspf/letters.jspf");
     _jspx_dependants.add("/WEB-INF/jspf/footer.jspf");
   }
 
@@ -69,6 +71,11 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <link href=\"../css/lib_style.css\" rel=\"stylesheet\" type=\"text/css\">\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
+      out.write("                ");
+
+            request.setCharacterEncoding("UTF-8");
+        
+      out.write("\n");
       out.write("        ");
       out.write("\n");
       out.write("        <div class=\"container\">\n");
@@ -77,11 +84,17 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    <img src=\"../images/logo.png\" alt=\"Логотип\" name=\"logo\" width=\"100\" height=\"100\"/>\n");
       out.write("                </div>\n");
       out.write("                <div class=\"title\">\n");
-      out.write("                    Онлайн библиотека\n");
+      out.write("                    <h3>Онлайн библиотека <br/> Все книги - в электронном виде!</h3>\n");
       out.write("                </div>                \n");
-      out.write("                <form class=\"search_form\" name=\"search_form\" method=\"post\">\n");
+      out.write("                <div class=\"welcome\">\n");
+      out.write("                    <h5>Добро пожаловать, ");
+      out.print(request.getParameter("username") );
+      out.write(" !</h5>\n");
+      out.write("                    <h6><a href=\"../index.jsp\">Выход</a></h6>\n");
+      out.write("                </div>            \n");
+      out.write("                    <form class=\"search_form\" name=\"search_form\" method=\"GET\" action=\"books.jsp\">\n");
       out.write("                    <!--<img alt=\"поиск\" src=\"../images/search.jpg\">--> \n");
-      out.write("                    <input type=\"text\" name=\"search_String\" value=\"\" size=\"100\"/>\n");
+      out.write("                    <input type=\"text\" name=\"search_string\" value=\"\" size=\"100\"/>\n");
       out.write("                    <input class=\"search_button\" type=\"submit\" value=\"Поиск\" name=\"search_button\" />\n");
       out.write("                    <select name=\"search_option\">\n");
       out.write("                        <option>Название</option>\n");
@@ -89,6 +102,7 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </select>\n");
       out.write("                </form>                \n");
       out.write("            </div>\n");
+      out.write("\n");
       out.write("\n");
       out.write("\n");
       out.write("\n");
@@ -127,16 +141,6 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </ul>\n");
       out.write("</div>\n");
       out.write('\n');
-request.setCharacterEncoding("UTF-8");
-    long genreId = 0L;
-    
-    try {
-        genreId = Long.valueOf(request.getParameter("genre_id"));
-    } catch (Exception ex) {
-        ex.printStackTrace();
-    }
-
-      out.write('\n');
       out.write('\n');
       beans.BookList bookList = null;
       synchronized (_jspx_page_context) {
@@ -146,22 +150,74 @@ request.setCharacterEncoding("UTF-8");
           _jspx_page_context.setAttribute("bookList", bookList, PageContext.PAGE_SCOPE);
         }
       }
+      out.write('\n');
+      out.write('\n');
+      out.write('\n');
+      out.write('\n');
+      beans.LetterList letterList = null;
+      synchronized (application) {
+        letterList = (beans.LetterList) _jspx_page_context.getAttribute("letterList", PageContext.APPLICATION_SCOPE);
+        if (letterList == null){
+          letterList = new beans.LetterList();
+          _jspx_page_context.setAttribute("letterList", letterList, PageContext.APPLICATION_SCOPE);
+        }
+      }
+      out.write(" \n");
+      out.write("\n");
+      out.write("<div class=\"letters\">\n");
+      out.write("    ");
+ char[] letters = letterList.getRussianLetters();
+    for (int i = 0; i < letters.length; i++) {
+    
+      out.write("\n");
+      out.write("    <a href=\"books.jsp?letter=");
+      out.print(letters[i]);
+      out.write('"');
+      out.write('>');
+      out.print(letters[i]);
+      out.write("</a>\n");
+      out.write("    ");
+ }
+    
+      out.write("\n");
+      out.write("</div>\n");
       out.write("\n");
       out.write("\n");
       out.write("<div class=\"book_list\">\n");
-      out.write("    <h3>");
-      out.write((java.lang.String) org.apache.jasper.runtime.PageContextImpl.evaluateExpression("${param.name}", java.lang.String.class, (PageContext)_jspx_page_context, null));
-      out.write("</h3>\n");
       out.write("    \n");
       out.write("        ");
 
-            ArrayList<Book> list = bookList.getBooksByGenre(genreId);
-            session.setAttribute("currentBookList", list);
-            for (Book book : list) {
-                
+            ArrayList<Book> list = null; 
+            if (request.getParameter("genre_id") != null) {
+                long genreId = Long.valueOf(request.getParameter("genre_id"));
+                list = bookList.getBooksByGenre(genreId);
+            } else if (request.getParameter("letter") != null) {
+                String letter = request.getParameter("letter");
+                list = bookList.getBooksByLetter(letter);
+            } else if (request.getParameter("search_string") != null) {
+                String searchStr = request.getParameter("search_string");
+                SearchType type = SearchType.TITLE;
+                if (request.getParameter("search_option").equals("Автор")) {
+                    type = SearchType.AUTHOR;
+                }
+                if (searchStr != null && !searchStr.trim().equals("")) {
+                    list = bookList.getBooksBySearch(searchStr, type);
+                }
+            }
+                         
         
-      out.write("\n");
+      out.write("   \n");
       out.write("        \n");
+      out.write("    <h5 style=\"text-align: left; margin-top:20px;\">Найдено книг: ");
+      out.print(list.size() );
+      out.write(" </h5>\n");
+      out.write("              ");
+  
+                session.setAttribute("currentBookList", list);
+                for (Book book : list) {
+    
+      out.write("\n");
+      out.write("\n");
       out.write("            <div class=\"book_info\">\n");
       out.write("                <div class=\"book_title\">\n");
       out.write("                <p> ");

@@ -7,8 +7,6 @@ ul.nav a, ul.nav a:visited {
 a img { 
     border: none;
 }
-
-
 a:link {
     color:#414958;
     text-decoration: underline; 
@@ -25,7 +23,7 @@ a:hover, a:active, a:focus {
     background-color: antiquewhite;
     color: #8e3c40;
     width: 1000px;
-    height: 700px;
+    height: 1500px;
     margin: 0 auto;
     padding: 20px;	
 }
@@ -87,6 +85,26 @@ body {
     color: #8e3c40;
     padding-left: 100px;
     padding-right: 100px;
+}
+.welcome{
+    text-align: right;
+    padding-top: 50px;
+    font-weight: normal;
+    padding-right: 65px;
+    color: darkcyan;
+    float: right;
+}
+.welcome a {
+    text-decoration: none;
+    color: darkcyan;  
+    border: #009999 dashed 1px;
+    border-radius: 5px;
+    padding: 4px;
+}
+.welcome a:hover {
+    background:linear-gradient(to bottom, #009999 5%, #ccffff 100%);
+    background-color: activeborder;
+    cursor: pointer;
 }
 .search_form{
     margin:20px;
@@ -161,4 +179,21 @@ body {
 .book_image{
     height: 260px;
     float: left;
+}
+.letters{
+    float:left;
+    height: 20px;
+    margin: 10px;
+}
+.letters a{
+    text-decoration: none;
+    color: #d83526;
+    font-size: 15px;
+    font-weight: bold;
+    cursor:pointer;
+}
+.letters a:hover, a:active, a:visited {
+	background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+	background-color:#e4685d;
+        cursor: pointer;
 }

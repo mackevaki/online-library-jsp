@@ -16,9 +16,10 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
   private static java.util.List<String> _jspx_dependants;
 
   static {
-    _jspx_dependants = new java.util.ArrayList<String>(3);
+    _jspx_dependants = new java.util.ArrayList<String>(4);
     _jspx_dependants.add("/WEB-INF/jspf/header.jspf");
     _jspx_dependants.add("/pages/../WEB-INF/jspf/left_menu.jspf");
+    _jspx_dependants.add("/pages/../WEB-INF/jspf/letters.jspf");
     _jspx_dependants.add("/WEB-INF/jspf/footer.jspf");
   }
 
@@ -123,6 +124,35 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </ul>\n");
       out.write("</div>\n");
       out.write('\n');
+      out.write('\n');
+      out.write('\n');
+      beans.LetterList letterList = null;
+      synchronized (application) {
+        letterList = (beans.LetterList) _jspx_page_context.getAttribute("letterList", PageContext.APPLICATION_SCOPE);
+        if (letterList == null){
+          letterList = new beans.LetterList();
+          _jspx_page_context.setAttribute("letterList", letterList, PageContext.APPLICATION_SCOPE);
+        }
+      }
+      out.write(" \n");
+      out.write("\n");
+      out.write("<div class=\"letters\">\n");
+      out.write("    ");
+ char[] letters = letterList.getRussianLetters();
+    for (int i = 0; i < letters.length; i++) {
+    
+      out.write("\n");
+      out.write("    <a href=\"books.jsp?letter=");
+      out.print(letters[i]);
+      out.write('"');
+      out.write('>');
+      out.print(letters[i]);
+      out.write("</a>\n");
+      out.write("    ");
+ }
+    
+      out.write("\n");
+      out.write("</div>\n");
       out.write('\n');
       out.write("\n");
       out.write("        ");

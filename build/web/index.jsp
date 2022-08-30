@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 19 авг. 2022 г., 16:09:09
-    Author     : vojtech
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%--<%@taglib uri="http://java.sun.com/jsp/jstl/sql" prefix="sql1"%>--%>
 <%--<%! int count;%>--%>
@@ -15,6 +9,7 @@
     <link href="css/main_style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
+        <%session.invalidate(); %>
         <div class="main">
             <div class="content">
                 <p class="title"><img src="images/lib.png" width="320" height="217" alt="lib"/>

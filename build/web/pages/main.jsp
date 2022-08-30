@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="../WEB-INF/jspf/left_menu.jspf" %>
-
+<%@include file="../WEB-INF/jspf/letters.jspf" %>
 <%-- 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="beans.Author"%>

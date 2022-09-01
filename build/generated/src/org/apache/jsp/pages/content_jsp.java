@@ -6,9 +6,9 @@ import javax.servlet.jsp.*;
 import beans.Author;
 import beans.AuthorList;
 import testconnection.TestConnection;
-import beans.Genre;
+import java.util.Enumeration;
 
-public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
+public final class content_jsp extends org.apache.jasper.runtime.HttpJspBase
     implements org.apache.jasper.runtime.JspSourceDependent {
 
   private static final JspFactory _jspxFactory = JspFactory.getDefaultFactory();
@@ -16,10 +16,8 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
   private static java.util.List<String> _jspx_dependants;
 
   static {
-    _jspx_dependants = new java.util.ArrayList<String>(4);
+    _jspx_dependants = new java.util.ArrayList<String>(2);
     _jspx_dependants.add("/WEB-INF/jspf/header.jspf");
-    _jspx_dependants.add("/pages/../WEB-INF/jspf/left_menu.jspf");
-    _jspx_dependants.add("/pages/../WEB-INF/jspf/letters.jspf");
     _jspx_dependants.add("/WEB-INF/jspf/footer.jspf");
   }
 
@@ -116,131 +114,73 @@ public final class main_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                    </select>\n");
       out.write("                </form>                \n");
       out.write("            </div>\n");
-      out.write('\n');
       out.write("\n");
       out.write("\n");
-      out.write("<div class=\"sidebar1\">\n");
-      out.write("    <h4>Жанры:</h4>\n");
-      out.write("    <ul class=\"nav\">\n");
-      out.write("        ");
-      beans.GenreList genreList = null;
-      synchronized (application) {
-        genreList = (beans.GenreList) _jspx_page_context.getAttribute("genreList", PageContext.APPLICATION_SCOPE);
-        if (genreList == null){
-          genreList = new beans.GenreList();
-          _jspx_page_context.setAttribute("genreList", genreList, PageContext.APPLICATION_SCOPE);
-        }
-      }
+      out.write("<!DOCTYPE html>\n");
+      out.write("<html>\n");
+      out.write("    <head>\n");
+      out.write("        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n");
+      out.write("        <title>JSP Page</title>\n");
+      out.write("    </head>\n");
+      out.write("    <body>\n");
       out.write("\n");
-      out.write("        ");
-
-            long selectedGenreId = 0;
-
-            if (request.getParameter("genre_id") != null) {
-                selectedGenreId = Long.valueOf(request.getParameter("genre_id"));
-            } else if (session.getAttribute("genre_id") != null) {
-                selectedGenreId = Long.valueOf(session.getAttribute("genreId").toString());
-            }
-            
-            session.setAttribute("genreId", selectedGenreId);
-        
+      out.write("        <div class=\"pdf_viewer\">\n");
+      out.write("            <applet CODE=\"EmbedPDF.class\" archive=\"");
+      out.print(getServletContext().getContextPath());
+      out.write("/jars/EmbedPDF.jar\" WIDTH=\"850\" HEIGHT=\"900\">\n");
+      out.write("                <!-- The URL of the PDF document that we want to show: -->\n");
       out.write("\n");
+      out.write("                <param name=\"pdf\" value=\"");
+      out.print( request.getContextPath());
+      out.write("/PdfContent?index=");
+      out.print(request.getParameter("index"));
+      out.write("&session_id=");
+      out.print(request.getSession().getId());
+      out.write("\"/> \n");
       out.write("\n");
-      out.write("        <li><a href=\"books.jsp?genre_id=0\">Все книги</a></li>\n");
-      out.write("        \n");
-      out.write("        ");
-
-            for (Genre genre : genreList.getGenres()) {
-                if (selectedGenreId != 0 && selectedGenreId == genre.getId()) {
-        
+      out.write("                <!-- Whether users may open the PDF document in a new window: -->\n");
+      out.write("                <param name=\"enableOpenWindow\" value=\"true\"/>\n");
       out.write("\n");
-      out.write("        <li><a style=\"color:darkcyan;\" href=\"books.jsp?genre_id=");
-      out.print(genre.getId());
-      out.write("&name=");
-      out.print(genre.getName());
-      out.write('"');
-      out.write('>');
-      out.print(genre.getName());
-      out.write("</a></li>\n");
-              } else {                   
-        
-      out.write("\n");
-      out.write("        <li><a href=\"books.jsp?genre_id=");
-      out.print(genre.getId());
-      out.write('"');
-      out.write('>');
-      out.print(genre.getName());
-      out.write("</a></li>\n");
-      out.write("        ");
-      }
-            }
-      out.write("\n");
-      out.write("    </ul>\n");
-      out.write("</div>\n");
-      out.write('\n');
-      out.write('\n');
-      out.write('\n');
-      beans.LetterList letterList = null;
-      synchronized (application) {
-        letterList = (beans.LetterList) _jspx_page_context.getAttribute("letterList", PageContext.APPLICATION_SCOPE);
-        if (letterList == null){
-          letterList = new beans.LetterList();
-          _jspx_page_context.setAttribute("letterList", letterList, PageContext.APPLICATION_SCOPE);
-        }
-      }
-      out.write(" \n");
-      out.write("\n");
-      out.write("<div class=\"letters\">\n");
-      out.write("    ");
- 
-        String searchLetter = null;
-        
-        if (request.getParameter("letter") != null) {
-            searchLetter = request.getParameter("letter");
-            session.setAttribute("letter", searchLetter);
-        } else if (session.getAttribute("letter") != null) {
-            searchLetter = session.getAttribute("letter").toString();
-        }    
-        
-    char[] letters = letterList.getRussianLetters();
-    for (int i = 0; i < letters.length; i++) {
-        if (searchLetter != null && searchLetter.toString().toUpperCase().charAt(0) == letters[i]) {
-    
+      out.write("                <!-- Whether the PDF is rendered with subpixel-antialiasing (may be slow and needs more memory) -->\n");
+      out.write("                <param name=\"enableSubpixAA\" value=\"true\"/>\n");
       out.write("\n");
       out.write("\n");
-      out.write("    <a style=\"color:darkcyan;\" href=\"books.jsp?letter=");
-      out.print(letters[i]);
-      out.write('"');
-      out.write('>');
-      out.print(letters[i]);
-      out.write("</a>\n");
-      out.write("    ");
-
-        } else {
-    
+      out.write("                <!-- The following parameters are recommended to improve usability and\n");
+      out.write("                     performance of the applet when run with Sun's Java Plugin: -->\n");
       out.write("\n");
-      out.write("    <a  href=\"books.jsp?letter=");
-      out.print(letters[i]);
-      out.write('"');
-      out.write('>');
-      out.print(letters[i]);
-      out.write("</a>\n");
-      out.write("    ");
-
-            }
-    }
+      out.write("                <!-- whether language-specific texts shall be looked up on the server. -->\n");
+      out.write("                <param name=\"codebase_lookup\" value=\"false\"/>\n");
       out.write("\n");
-      out.write("</div>\n");
+      out.write("                <!-- whether the code of the applet shall be shared with other applets. -->\n");
+      out.write("                <param name=\"classloader_cache\" value=\"false\"/>\n");
       out.write("\n");
+      out.write("                <!-- Whether the server provides a highly compressed .pack.gz-version of the applet.\n");
+      out.write("                     The amount of memory that the applet may use (128m is 128 mega bytes).\n");
+      out.write("                -->\n");
+      out.write("                <param name=\"java_arguments\" value=\"-Djnlp.packEnabled=true -Xmx128m\"/>\n");
       out.write("\n");
-      out.write("<div style=\"float:left; margin-top: 20px;\">\n");
-      out.write("<h3>Выберите раздел или используйте поиск книги</h3>\n");
-      out.write("</div>\n");
+      out.write("                <!-- the splash screen to show, while the applet loads. -->\n");
+      out.write("                <param name=\"image\" value=\"");
+      out.print(getServletContext().getContextPath());
+      out.write("/images/splash.gif\"/>\n");
       out.write("\n");
-      out.write("        ");
+      out.write("                <!-- the border of the splash screen. -->\n");
+      out.write("                <param name=\"boxborder\" value=\"false\"/>\n");
       out.write("\n");
-      out.write("                    ");
-      out.write('\n');
+      out.write("                <!-- whether the splash screen shall be centered. -->\n");
+      out.write("                <param name=\"centerimage\" value=\"true\"/>\n");
+      out.write("            </applet>\n");
+      out.write("                <iframe src=\"");
+      out.print(request.getContextPath());
+      out.write("/PdfContent?index=");
+      out.print(request.getParameter("index"));
+      out.write("&session_id=");
+      out.print(request.getSession().getId());
+      out.write("\" width=\"500\" height=\"700\"></iframe> \n");
+      out.write("           \n");
+      out.write("        </div>\n");
+      out.write("    </body>\n");
+      out.write("</html>\n");
       out.write("\n");
       out.write("\n");
       out.write("        </div>\n");

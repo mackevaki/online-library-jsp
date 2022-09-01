@@ -15,7 +15,7 @@
             if (request.getParameter("genre_id") != null) {
                 long genreId = Long.valueOf(request.getParameter("genre_id"));
                 if (genreId == 0) {
-                    list = bookList.getBooks();
+                    list = bookList.getAllBooks();
                 } else {
                     list = bookList.getBooksByGenre(genreId);
                 }
@@ -56,7 +56,7 @@
                 <br><strong>Количество страниц:</strong> <%=book.getPageCount() %>
                 <br><strong>Год издания:</strong> <%=book.getPublishDate() %>
                 <br><strong>Автор:</strong> <%=book.getAuthor() %>
-                <p style="margin:10px;"> <a href="#">Читать</a></p>
+                <p style="margin:10px;"> <a href="content.jsp?index=<%=list.indexOf(book)%>">Читать</a></p>
                 </div>
        </div>
             

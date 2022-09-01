@@ -34,12 +34,18 @@ public class BookList {
         return books;
     }
     
-    public ArrayList<Book> getBooks() {
-        if (!books.isEmpty()) {
-            return books;
-        } else {
-            return getBooksFromBD("select * from library.book order by name");
-        }
+//    public ArrayList<Book> getBooks() {
+//        if (!books.isEmpty()) {
+//            return books;
+//        } else {
+//            return getBooksFromBD("select * from library.book order by name");
+//        }
+//    }
+    
+        public ArrayList<Book> getAllBooks() {
+        return getBooksFromBD("select b.id,b.name,b.isbn,b.page_count,b.publish_year, p.name as publisher, "
+                + "a.fio as author, g.name as genre, b.image from book b inner join author a on b.author_id=a.id "
+                + "inner join genre g on b.genre_id=g.id inner join publisher p on b.publisher_id=p.id order by b.name");
     }
     
     public ArrayList<Book> getBooksByGenre(long id) {

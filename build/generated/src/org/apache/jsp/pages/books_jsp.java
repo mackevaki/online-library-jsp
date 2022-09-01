@@ -71,10 +71,25 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("        <link href=\"../css/lib_style.css\" rel=\"stylesheet\" type=\"text/css\">\n");
       out.write("    </head>\n");
       out.write("    <body>\n");
-      out.write("                ");
+      out.write("        ");
 
             request.setCharacterEncoding("UTF-8");
-        
+            
+            String searchString = "";
+
+            if (request.getParameter("search_string") != null) {
+                searchString = request.getParameter("search_string");
+                session.setAttribute("search_string", searchString);
+            } else if (session.getAttribute("search_string") != null) {
+                searchString = session.getAttribute("search_string").toString();
+            } else {
+                session.setAttribute("search_string", searchString);
+            }
+            
+            if (request.getParameter("username") != null) {
+                session.setAttribute("username", request.getParameter("username"));
+            }
+
       out.write("\n");
       out.write("        ");
       out.write("\n");
@@ -88,13 +103,15 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                </div>                \n");
       out.write("                <div class=\"welcome\">\n");
       out.write("                    <h5>Добро пожаловать, ");
-      out.print(request.getParameter("username") );
+      out.print(session.getAttribute("username"));
       out.write(" !</h5>\n");
       out.write("                    <h6><a href=\"../index.jsp\">Выход</a></h6>\n");
       out.write("                </div>            \n");
       out.write("                    <form class=\"search_form\" name=\"search_form\" method=\"GET\" action=\"books.jsp\">\n");
       out.write("                    <!--<img alt=\"поиск\" src=\"../images/search.jpg\">--> \n");
-      out.write("                    <input type=\"text\" name=\"search_string\" value=\"\" size=\"100\"/>\n");
+      out.write("                    <input type=\"text\" name=\"search_string\" value=\"");
+      out.print(searchString);
+      out.write("\"  size=\"100\"/>\n");
       out.write("                    <input class=\"search_button\" type=\"submit\" value=\"Поиск\" name=\"search_button\" />\n");
       out.write("                    <select name=\"search_option\">\n");
       out.write("                        <option>Название</option>\n");
@@ -123,10 +140,27 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("        ");
 
-            for (Genre genre : genreList.getGenres()) {
+            long selectedGenreId = 0;
+
+            if (request.getParameter("genre_id") != null) {
+                selectedGenreId = Long.valueOf(request.getParameter("genre_id"));
+            } else if (session.getAttribute("genre_id") != null) {
+                selectedGenreId = Long.valueOf(session.getAttribute("genreId").toString());
+            }
+            
+            session.setAttribute("genreId", selectedGenreId);
         
       out.write("\n");
-      out.write("        <li><a href=\"books.jsp?genre_id=");
+      out.write("\n");
+      out.write("        <li><a href=\"books.jsp?genre_id=0\">Все книги</a></li>\n");
+      out.write("        \n");
+      out.write("        ");
+
+            for (Genre genre : genreList.getGenres()) {
+                if (selectedGenreId != 0 && selectedGenreId == genre.getId()) {
+        
+      out.write("\n");
+      out.write("        <li><a style=\"color:darkcyan;\" href=\"books.jsp?genre_id=");
       out.print(genre.getId());
       out.write("&name=");
       out.print(genre.getName());
@@ -134,9 +168,18 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write('>');
       out.print(genre.getName());
       out.write("</a></li>\n");
+              } else {                   
+        
       out.write("\n");
+      out.write("        <li><a href=\"books.jsp?genre_id=");
+      out.print(genre.getId());
+      out.write('"');
+      out.write('>');
+      out.print(genre.getName());
+      out.write("</a></li>\n");
       out.write("        ");
-}
+      }
+            }
       out.write("\n");
       out.write("    </ul>\n");
       out.write("</div>\n");
@@ -166,19 +209,43 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("\n");
       out.write("<div class=\"letters\">\n");
       out.write("    ");
- char[] letters = letterList.getRussianLetters();
+ 
+        String searchLetter = null;
+        
+        if (request.getParameter("letter") != null) {
+            searchLetter = request.getParameter("letter");
+            session.setAttribute("letter", searchLetter);
+        } else if (session.getAttribute("letter") != null) {
+            searchLetter = session.getAttribute("letter").toString();
+        }    
+        
+    char[] letters = letterList.getRussianLetters();
     for (int i = 0; i < letters.length; i++) {
+        if (searchLetter != null && searchLetter.toString().toUpperCase().charAt(0) == letters[i]) {
     
       out.write("\n");
-      out.write("    <a href=\"books.jsp?letter=");
+      out.write("\n");
+      out.write("    <a style=\"color:darkcyan;\" href=\"books.jsp?letter=");
       out.print(letters[i]);
       out.write('"');
       out.write('>');
       out.print(letters[i]);
       out.write("</a>\n");
       out.write("    ");
- }
+
+        } else {
     
+      out.write("\n");
+      out.write("    <a  href=\"books.jsp?letter=");
+      out.print(letters[i]);
+      out.write('"');
+      out.write('>');
+      out.print(letters[i]);
+      out.write("</a>\n");
+      out.write("    ");
+
+            }
+    }
       out.write("\n");
       out.write("</div>\n");
       out.write("\n");
@@ -190,9 +257,14 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
             ArrayList<Book> list = null; 
             if (request.getParameter("genre_id") != null) {
                 long genreId = Long.valueOf(request.getParameter("genre_id"));
-                list = bookList.getBooksByGenre(genreId);
+                if (genreId == 0) {
+                    list = bookList.getAllBooks();
+                } else {
+                    list = bookList.getBooksByGenre(genreId);
+                }
             } else if (request.getParameter("letter") != null) {
                 String letter = request.getParameter("letter");
+                session.setAttribute("letter", letter);
                 list = bookList.getBooksByLetter(letter);
             } else if (request.getParameter("search_string") != null) {
                 String searchStr = request.getParameter("search_string");
@@ -248,7 +320,9 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("                <br><strong>Автор:</strong> ");
       out.print(book.getAuthor() );
       out.write("\n");
-      out.write("                <p style=\"margin:10px;\"> <a href=\"#\">Читать</a></p>\n");
+      out.write("                <p style=\"margin:10px;\"> <a href=\"content.jsp?index=");
+      out.print(list.indexOf(book));
+      out.write("\">Читать</a></p>\n");
       out.write("                </div>\n");
       out.write("       </div>\n");
       out.write("            \n");

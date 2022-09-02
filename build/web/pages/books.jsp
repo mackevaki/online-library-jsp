@@ -32,6 +32,10 @@
                 if (searchStr != null && !searchStr.trim().equals("")) {
                     list = bookList.getBooksBySearch(searchStr, type);
                 }
+            } else if (session.getAttribute("currentBookList") != null) {
+                list = (ArrayList<Book>) session.getAttribute("currentBookList");
+            } else {
+                list = bookList.getAllBooks();
             }
                          
         %>   
@@ -58,9 +62,7 @@
                 <br><strong>Автор:</strong> <%=book.getAuthor() %>
                 <p style="margin:10px;"> <a href="content.jsp?index=<%=list.indexOf(book)%>">Читать</a></p>
                 </div>
-       </div>
-            
-       
-        <%}%>
-  
+       </div>           
+                
+        <%}%>  
 </div>

@@ -275,6 +275,10 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
                 if (searchStr != null && !searchStr.trim().equals("")) {
                     list = bookList.getBooksBySearch(searchStr, type);
                 }
+            } else if (session.getAttribute("currentBookList") != null) {
+                list = (ArrayList<Book>) session.getAttribute("currentBookList");
+            } else {
+                list = bookList.getAllBooks();
             }
                          
         
@@ -324,12 +328,10 @@ public final class books_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.print(list.indexOf(book));
       out.write("\">Читать</a></p>\n");
       out.write("                </div>\n");
-      out.write("       </div>\n");
-      out.write("            \n");
-      out.write("       \n");
+      out.write("       </div>           \n");
+      out.write("                \n");
       out.write("        ");
 }
-      out.write("\n");
       out.write("  \n");
       out.write("</div>\n");
       out.write("\n");

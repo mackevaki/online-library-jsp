@@ -8,7 +8,7 @@ a img {
     border: none;
 }
 a:link {
-    color:#414958;
+    color: #414958;
     text-decoration: underline; 
 }
 a:visited {
@@ -57,13 +57,14 @@ body {
     font-style: normal;
     font-weight: normal;
     background-color: #FFF;
-    margin:100px;
+    margin: 100px;
 }
 .header {
     color: crimson;
     text-align: left;
     font-size: 18px;
     font-weight: bold;
+    height: 260px;
 }
 .title{
     float: left;
@@ -77,8 +78,8 @@ body {
 .logo{
     text-align: left;
     padding: 20px;
-    float:left;
-    width:100px;
+    float: left;
+    width: 100px;
     height: 100px;
 }
 .text {
@@ -102,12 +103,12 @@ body {
     padding: 4px;
 }
 .welcome a:hover {
-    background:linear-gradient(to bottom, #009999 5%, #ccffff 100%);
+    background: linear-gradient(to bottom, #009999 5%, #ccffff 100%);
     background-color: activeborder;
     cursor: pointer;
 }
 .search_form{
-    margin:20px;
+    margin: 20px;
     text-align: left;
     background-color: #f7c5c0;
     height: 35px;
@@ -117,34 +118,34 @@ body {
     width: 900px;
 }
 .search_button {
-	box-shadow:inset 0px 1px 0px 0px #f7c5c0;
-	background:linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
-	background-color:#fc8d83;
-	border-radius:6px;
-	border:1px solid #d83526;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Verdana;
-	font-size:15px;
-	padding:3px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #b23e35;
+	box-shadow: inset 0px 1px 0px 0px #f7c5c0;
+	background: linear-gradient(to bottom, #fc8d83 5%, #e4685d 100%);
+	background-color: #fc8d83;
+	border-radius: 6px;
+	border: 1px solid #d83526;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-family: Verdana;
+	font-size: 15px;
+	padding: 3px 24px;
+	text-decoration: none;
+	text-shadow: 0px 1px 0px #b23e35;
 }
 .search_button:hover {
-	background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
-	background-color:#e4685d;
+	background: linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+	background-color: #e4685d;
         cursor: pointer;
 }
 .search_button:active {
-	position:relative;
-	top:1px;
+	position: relative;
+	top: 1px;
 }
 .search_option {
     
 }
 .book_list {
-    float:left;
+    float: left;
     width: 700px;
 }
 .book_list h3{
@@ -162,7 +163,7 @@ body {
 }   
 .book_title {
     height: 50px;
-    float:left;
+    float: left;
 }
 .book_details {
     color: #8e3c40;
@@ -190,16 +191,19 @@ body {
     color: #d83526;
     font-size: 15px;
     font-weight: bold;
-    cursor:pointer;
+    cursor: pointer;
 }
 .letters a:hover, a:active, a:visited {
-	background:linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
-	background-color:#e4685d;
+	background: linear-gradient(to bottom, #e4685d 5%, #fc8d83 100%);
+	background-color: #e4685d;
         cursor: pointer;
 }
-.pdf_viewer{
+.pdf_viewer {
     margin: 0 auto;
-    width:850px;
-    margin-top:30px;
+    width: 850px;
+    margin-top: 10px;
     height: 1200px;
+}
+.pdf_viewer iframe {
+    margin-top: 10px;
 }

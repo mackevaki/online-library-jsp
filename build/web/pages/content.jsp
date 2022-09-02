@@ -2,6 +2,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
         <div class="pdf_viewer">
+            <a href="books.jsp?"><< Вернуться</a>
             <applet CODE="EmbedPDF.class" archive="<%=getServletContext().getContextPath()%>/jars/EmbedPDF.jar" WIDTH="850" HEIGHT="900">
                 <!-- The URL of the PDF document that we want to show: -->
 

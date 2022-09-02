@@ -9,7 +9,10 @@
     <link href="css/main_style.css" rel="stylesheet" type="text/css">
     </head>
     <body>
-        <%session.invalidate(); %>
+        <%if (request.getParameter("session") !=null && request.getParameter("session").equals("0")) {
+            session.invalidate();
+            request.getSession(true);
+        } %>
         <div class="main">
             <div class="content">
                 <p class="title"><img src="images/lib.png" width="320" height="217" alt="lib"/>

@@ -53,7 +53,10 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("    </head>\n");
       out.write("    <body>\n");
       out.write("        ");
-session.invalidate(); 
+if (request.getParameter("session") !=null && request.getParameter("session").equals("0")) {
+            session.invalidate();
+            request.getSession(true);
+        } 
       out.write("\n");
       out.write("        <div class=\"main\">\n");
       out.write("            <div class=\"content\">\n");
